@@ -60,6 +60,14 @@ namespace Wpf_UI
                 return;
             }
             appointment.Date = txtDate.DisplayDate.Date;
+
+            if (endTime < startTime)
+            {
+                MessageBox.Show("Ending time cannot be smaller than starting time");
+                txtStartTime.Text = "";
+                txtEndTime.Text = "";
+                return;
+            }
             appointment.Start = startTime;
             appointment.End = endTime;
             appointment.Type = txtType.Text;
@@ -74,13 +82,7 @@ namespace Wpf_UI
                 {
                     MessageBox.Show("Incorrect Patient ID");
                     txtPatientId.Text = "";
-                } 
-                else if(endTime <startTime)
-                {
-                    MessageBox.Show("Ending time cannot be smaller than starting time");
-                    txtStartTime.Text = "";
-                    txtEndTime.Text = "";
-                }                                  
+                }                                               
                 else
                 {
                     if (appointment.Id == 0)

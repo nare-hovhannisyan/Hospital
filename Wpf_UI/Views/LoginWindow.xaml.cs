@@ -15,6 +15,7 @@ using System.Data.Entity;
 using Wpf_UI.Models;
 using Wpf_UI.Views;
 using Wpf_UI.DataAccess;
+using Wpf_UI.Services;
 
 namespace Wpf_UI.Views
 {
@@ -25,7 +26,7 @@ namespace Wpf_UI.Views
     {
         public LoginWindow()
         {
-            InitializeComponent();
+            InitializeComponent();           
         }
 
         User user = new User();
@@ -35,7 +36,7 @@ namespace Wpf_UI.Views
             using(HospitalDbContext db = new HospitalDbContext())
             {           
                 var userCheck = db.Users.FirstOrDefault(x => x.Login == txtUsername.Text);
-                if ((user == null) | (userCheck.Password != txtPassword.Password))
+                if ((user == null) | (userCheck.Password != HashFunction.ComputeSha256Hash(txtPassword.Password)))
                 {
                     MessageBox.Show("Invalid username or password");
                 } else

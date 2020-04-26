@@ -16,8 +16,8 @@
                         Date = c.DateTime(nullable: false, storeType: "date"),
                         Start = c.Time(nullable: false, precision: 7),
                         End = c.Time(nullable: false, precision: 7),
-                        Type = c.String(nullable: false),
-                        Diagnosis = c.String(nullable: false),
+                        Type = c.String(),
+                        Diagnosis = c.String(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Patients", t => t.PatientID, cascadeDelete: true)
@@ -28,11 +28,11 @@
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false),
-                        Gender = c.String(nullable: false),
+                        Name = c.String(),
+                        Gender = c.String(),
                         DateofBirth = c.DateTime(nullable: false, storeType: "date"),
-                        Address = c.String(nullable: false),
-                        TelephoneNumber = c.String(nullable: false),
+                        Address = c.String(),
+                        TelephoneNumber = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -41,12 +41,12 @@
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Login = c.String(nullable: false),
-                        Password = c.String(nullable: false),
+                        Login = c.String(),
+                        Password = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
 
-            Sql("INSERT INTO Users (Login, Password) VALUES ('admin','admin')");
+            Sql("INSERT INTO Users (Login, Password) VALUES ('admin','8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918')");
         }
         
         public override void Down()
