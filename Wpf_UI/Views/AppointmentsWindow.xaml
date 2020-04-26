@@ -1,0 +1,67 @@
+﻿<Window x:Class="Wpf_UI.AppointmentsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Wpf_UI"
+        mc:Ignorable="d"
+        Title="AppointmentsWindow" Height="550" Width="1000" Background="#FF658D89" FontSize="18" Loaded="Window_Loaded">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="275*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="211*"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="Pateint ID&#xD;&#xA;" HorizontalAlignment="Left" Margin="30,79,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.184,0.385" Width="178" Height="48"/>
+        <TextBox HorizontalAlignment="Left" Name="txtPatientId" Height="23" Margin="217,82,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="178"/>
+        <Label Content="Date of the Visit&#xD;&#xA;&#xA;" HorizontalAlignment="Left" Margin="30,142,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.184,0.385" Width="155" Height="45"/>
+        <DatePicker Margin="217,142,155,332" Name="txtDate"></DatePicker>
+        <Label HorizontalAlignment="Left" Margin="34,215,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.184,0.385" Width="151" Height="47">
+            <Label Content="Label" Height="37"/>
+        </Label>
+        <Label Content="Type of the Visit" HorizontalAlignment="Left" Margin="34,305,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.184,0.385" Width="151" Height="47"/>
+        <ComboBox HorizontalAlignment="Left" Name="txtType" Margin="214,305,0,0" VerticalAlignment="Top" Width="178">
+            <ComboBoxItem Content="Primary"/>
+            <ComboBoxItem Content="Secondary"/>
+        </ComboBox>
+        <Label Content="Diagnosis" HorizontalAlignment="Left" Margin="36,366,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.184,0.385" Width="154" Height="47"/>
+        <TextBox HorizontalAlignment="Left" Name="txtDiagnosis" Height="34" Margin="217,370,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="175"/>
+        <Button Content="Save" Name="btnSave" HorizontalAlignment="Left" Margin="85,437,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.4,3.214" Click="btnSave_Click"/>
+        <Button Content="Delete" Name="btnDelete" HorizontalAlignment="Left" Margin="195,437,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.4,3.214" Click="btnDelete_Click"/>
+        <Button Content="Cancel" Name="btnCancel" HorizontalAlignment="Left" Margin="295,437,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.4,3.214" Click="btnCancel_Click"/>
+        <DataGrid HorizontalAlignment="Left" Name="dataGridAppointment" FontSize="15" CanUserDeleteRows="False" IsReadOnly="True" Height="443" Margin="420,42,0,0" VerticalAlignment="Top" Width="545" AutoGenerateColumns="False" ColumnWidth="SizeToHeader" Grid.ColumnSpan="3" >
+            <DataGrid.ItemContainerStyle>
+                <Style TargetType="DataGridRow">
+                    <EventSetter Event="MouseDoubleClick" Handler="DataGridRow_MouseDoubleClick"/>
+                </Style>
+            </DataGrid.ItemContainerStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="Id" Header="Appointment Id" Visibility="Hidden" Binding="{Binding Id}"/>
+                <DataGridTextColumn x:Name="PatientID" Header="Patient Id" Binding="{Binding PatientID}" Width="75"/>
+                <DataGridTextColumn x:Name="Date" Header="Date" Binding="{Binding Date, StringFormat={}{0:dd/MM/yyyy}}" Width="90"/>
+                <DataGridTextColumn x:Name="Start" Header="From" Binding="{Binding Start}" Width="70"/>
+                <DataGridTextColumn x:Name="End" Header="To" Binding="{Binding End}" Width="70"/>
+                <DataGridTextColumn x:Name="Type" Header="Type of the Visit" Binding="{Binding Type}" Width="120"/>
+                <DataGridTextColumn x:Name="Diagnosis" Header="Diagnosis" Binding="{Binding Diagnosis}" Width="*"/>
+
+
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Content="Back" Name="btnBack" HorizontalAlignment="Left" Width="85" Margin="0,0,0,477" Click="btnBack_Click"/>
+        <GroupBox Header="Visit" HorizontalAlignment="Left" Height="438" Margin="10,47,0,0" VerticalAlignment="Top" Width="405"/>
+        <TextBox HorizontalAlignment="Left" Height="34" Margin="295,207,0,0" TextWrapping="Wrap"  Name="txtStartTime" VerticalAlignment="Top" Width="90"/>
+        <Label Content="from:" HorizontalAlignment="Left" Margin="232,207,0,0" VerticalAlignment="Top"/>
+        <Label Content="to:" HorizontalAlignment="Left" Margin="232,246,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="30" Margin="295,260,0,0" TextWrapping="Wrap" Text="" Name="txtEndTime" VerticalAlignment="Top" Width="90" RenderTransformOrigin="0.583,2.341">
+            <TextBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="0.817"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="-0.038"/>
+                </TransformGroup>
+            </TextBox.RenderTransform>
+        </TextBox>
+        <Label Content="eg: 09:00" HorizontalAlignment="Left" Margin="34,250,0,0" VerticalAlignment="Top" FontSize="15" Foreground="#FF635F5F"/>
+    </Grid>
+</Window>

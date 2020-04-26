@@ -1,38 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Data.Entity;
-using System.Globalization;
-using static Wpf_UI.MainWindow;
+using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows;
+using System.Windows.Input;
+using Wpf_UI.DataAccess;
+using Wpf_UI.Models;
 
 namespace Wpf_UI
 {
     public partial class PatientsWindow : Window
-    {      
+    {
         public PatientsWindow()
-        {           
+        {
             InitializeComponent();
- 
         }
-      
-         Patient patient = new Patient();
+
+        Patient patient = new Patient();
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             Clear();
         }
 
-        public void Clear()
+        private void Clear()
         {
             txtName.Text = txtGender.Text = txtDateofBirth.Text = txtAddress.Text = txtPhoneNumber.Text = "";
             btnSave.Content = "Save";
@@ -46,10 +36,11 @@ namespace Wpf_UI
             PopulateDataGrid();
         }
 
-        public static bool IsPhoneNumber(string number)
+        private bool IsPhoneNumber(string number)
         {
             return Regex.Match(number, @"^[+]*[0-9][0-9]*").Success;
         }
+
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             if (!IsPhoneNumber(txtPhoneNumber.Text.Trim()))
@@ -79,21 +70,20 @@ namespace Wpf_UI
             }
         }
 
-        void PopulateDataGrid()
+        private void PopulateDataGrid()
         {
-            using(HospitalDbContext db = new HospitalDbContext())
+            using (HospitalDbContext db = new HospitalDbContext())
             {
                 datagridPatient.ItemsSource = db.Patients.ToList<Patient>();
 
             }
         }
 
-
         private void DataGridRow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Patient patient1 = (Patient)datagridPatient.SelectedItem;
             patient.Id = Convert.ToInt32(patient1.Id);
-            using(HospitalDbContext db = new HospitalDbContext())
+            using (HospitalDbContext db = new HospitalDbContext())
             {
                 patient = db.Patients.Where(x => x.Id == patient.Id).FirstOrDefault();
                 txtName.Text = patient.Name;
@@ -109,9 +99,9 @@ namespace Wpf_UI
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to delete this record?","EF CRUD Operation",MessageBoxButton.YesNo)==MessageBoxResult.Yes)
+            if (MessageBox.Show("Are you sure you want to delete this record?", "EF CRUD Operation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                using(HospitalDbContext db = new HospitalDbContext())
+                using (HospitalDbContext db = new HospitalDbContext())
                 {
                     var entry = db.Entry(patient);
                     if (entry.State == EntityState.Detached)

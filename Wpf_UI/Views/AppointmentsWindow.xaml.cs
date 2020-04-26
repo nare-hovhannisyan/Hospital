@@ -1,19 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Data.Entity;
-using static Wpf_UI.MainWindow;
-using System.Transactions;
+using System.Linq;
+using System.Windows;
+using System.Windows.Input;
+using Wpf_UI.DataAccess;
+using Wpf_UI.Models;
 
 namespace Wpf_UI
 {
@@ -26,9 +17,9 @@ namespace Wpf_UI
 
         Appointment appointment = new Appointment();
 
-        public void Clear()
+        private void Clear()
         {
-            txtPatientId.Text = txtDate.Text = txtHour.Text = txtType.Text = txtDiagnosis.Text = "";
+            txtPatientId.Text = txtDate.Text = txtStartTime.Text = txtEndTime.Text = txtType.Text = txtDiagnosis.Text = "";
             btnSave.Content = "Save";
             btnDelete.IsEnabled = false;
             appointment.Id = 0;
@@ -40,7 +31,7 @@ namespace Wpf_UI
             PopulateDataGrid();
         }
 
-        void PopulateDataGrid()
+        private void PopulateDataGrid()
         {
             using (HospitalDbContext db = new HospitalDbContext())
             {
@@ -48,27 +39,48 @@ namespace Wpf_UI
             }
         }
 
-        private async void btnSave_Click(object sender, RoutedEventArgs e)
+        private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+            int id;
+            if(!int.TryParse(txtPatientId.Text.Trim(), out id))
+            {
+                MessageBox.Show("Patient Id is not valid. Please insert a valid ID");
+                txtPatientId.Text = "";
+                return;
+            }           
+            appointment.PatientID = id;
 
-            appointment.PatientID = Int32.Parse(txtPatientId.Text.Trim());
-            int time = Int32.Parse(txtHour.Text.Remove(2));
-            int minute = Int32.Parse(txtHour.Text.Substring(3, 2));
-            TimeSpan ts = new TimeSpan(time, minute, 0);
-            DateTime result = txtDate.DisplayDate.Date + ts;
-            appointment.Date = result;
+
+            TimeSpan startTime, endTime;
+            if ((!TimeSpan.TryParse(txtStartTime.Text, out startTime)) | (!TimeSpan.TryParse(txtEndTime.Text, out endTime)))
+            {
+                MessageBox.Show("Please insert valid hours eg. 09:00");
+                txtStartTime.Text = "";
+                txtEndTime.Text = "";
+                return;
+            }
+            appointment.Date = txtDate.DisplayDate.Date;
+            appointment.Start = startTime;
+            appointment.End = endTime;
             appointment.Type = txtType.Text;
             appointment.Diagnosis = txtDiagnosis.Text;
 
-            
+
             using (HospitalDbContext db = new HospitalDbContext())
             {
-                appointment.Patient = db.Patients.Where(x => x.Id == appointment.PatientID).FirstOrDefault();
-                if (appointment.Patient ==null )
+                appointment.Patient = db.Patients.FirstOrDefault(x => x.Id == appointment.PatientID);
+
+                if (appointment.Patient == null)
                 {
-                    MessageBox.Show("Wrong Patiend Id. Please insert valid ID");
+                    MessageBox.Show("Incorrect Patient ID");
                     txtPatientId.Text = "";
-                }
+                } 
+                else if(endTime <startTime)
+                {
+                    MessageBox.Show("Ending time cannot be smaller than starting time");
+                    txtStartTime.Text = "";
+                    txtEndTime.Text = "";
+                }                                  
                 else
                 {
                     if (appointment.Id == 0)
@@ -76,12 +88,18 @@ namespace Wpf_UI
                     else
                         db.Entry(appointment).State = EntityState.Modified;
                     Clear();
-                    MessageBox.Show("Appointment submitted successfuly");
-                    db.SaveChanges();
-                    PopulateDataGrid();
+                    try
+                    {
+                        db.SaveChanges();
+                        MessageBox.Show("Appointment submitted successfuly");
+                        PopulateDataGrid();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Please enter information in the correct format");
+                    }
                 }
             };
-
         }
 
         private void DataGridRow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -90,10 +108,12 @@ namespace Wpf_UI
             appointment.Id = Convert.ToInt32(appointment1.Id);
             using (HospitalDbContext db = new HospitalDbContext())
             {
-                appointment = db.Appointments.Where(x => x.Id == appointment.Id).FirstOrDefault();
+                db.Appointments.Attach(appointment);
                 txtPatientId.Text = appointment.PatientID.ToString();
                 txtDate.Text = appointment.Date.ToString();
                 txtType.Text = appointment.Type;
+                txtStartTime.Text = appointment.Start.ToString();
+                txtEndTime.Text = appointment.End.ToString();
                 txtDiagnosis.Text = appointment.Diagnosis;
             }
             btnSave.Content = "Update";
@@ -131,5 +151,9 @@ namespace Wpf_UI
             this.Close();
         }
 
+        private void txtStartTime_GotFocus(object sender, RoutedEventArgs e)
+        {
+            txtStartTime.Text = "";
+        }
     }
 }

@@ -48,6 +48,8 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -67,11 +69,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="AppointmentsWindow.xaml">
+    <Page Include="Views\AppointmentsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Views\LoginWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -79,26 +85,32 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="AppointmentsWindow.xaml.cs">
+    <Compile Include="Migrations\202004261914276_initial.cs" />
+    <Compile Include="Migrations\202004261914276_initial.designer.cs">
+      <DependentUpon>202004261914276_initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AppointmentsWindow.xaml.cs">
       <DependentUpon>AppointmentsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DataAccess\DbAccess.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="DataAccess\HopsitalDbContext.cs" />
+    <Compile Include="Models\Appointment.cs" />
+    <Compile Include="Models\Patient.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Views\LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="PatientsWindow.xaml">
+    <Page Include="Views\PatientsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\202004260728019_initial.cs" />
-    <Compile Include="Migrations\202004260728019_initial.designer.cs">
-      <DependentUpon>202004260728019_initial.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="PatientsWindow.xaml.cs">
+    <Compile Include="Views\PatientsWindow.xaml.cs">
       <DependentUpon>PatientsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -114,14 +126,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Migrations\202004260728019_initial.resx">
-      <DependentUpon>202004260728019_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202004261914276_initial.resx">
+      <DependentUpon>202004261914276_initial.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Views\packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -129,6 +142,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
