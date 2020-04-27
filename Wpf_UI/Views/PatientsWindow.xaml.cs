@@ -75,7 +75,6 @@ namespace Wpf_UI
             using (HospitalDbContext db = new HospitalDbContext())
             {
                 datagridPatient.ItemsSource = db.Patients.ToList<Patient>();
-
             }
         }
 
@@ -89,7 +88,6 @@ namespace Wpf_UI
                 txtName.Text = patient.Name;
                 txtGender.Text = patient.Gender;
                 txtDateofBirth.Text = patient.DateofBirth.ToString();
-
                 txtAddress.Text = patient.Address;
                 txtPhoneNumber.Text = patient.TelephoneNumber;
             }

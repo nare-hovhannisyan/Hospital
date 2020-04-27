@@ -85,9 +85,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Migrations\202004262041581_initial.cs" />
-    <Compile Include="Migrations\202004262041581_initial.designer.cs">
-      <DependentUpon>202004262041581_initial.cs</DependentUpon>
+    <Compile Include="Migrations\202004270538038_initial.cs" />
+    <Compile Include="Migrations\202004270538038_initial.designer.cs">
+      <DependentUpon>202004270538038_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\HashFunction.cs" />
     <Compile Include="Views\AppointmentsWindow.xaml.cs">
@@ -127,8 +127,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Migrations\202004262041581_initial.resx">
-      <DependentUpon>202004262041581_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202004270538038_initial.resx">
+      <DependentUpon>202004270538038_initial.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

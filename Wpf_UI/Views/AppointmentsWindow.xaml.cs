@@ -41,8 +41,7 @@ namespace Wpf_UI
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            int id;
-            if(!int.TryParse(txtPatientId.Text.Trim(), out id))
+            if(!int.TryParse(txtPatientId.Text.Trim(), out int id))
             {
                 MessageBox.Show("Patient Id is not valid. Please insert a valid ID");
                 txtPatientId.Text = "";
@@ -51,8 +50,7 @@ namespace Wpf_UI
             appointment.PatientID = id;
 
 
-            TimeSpan startTime, endTime;
-            if ((!TimeSpan.TryParse(txtStartTime.Text, out startTime)) | (!TimeSpan.TryParse(txtEndTime.Text, out endTime)))
+            if ((!TimeSpan.TryParse(txtStartTime.Text, out TimeSpan startTime)) | (!TimeSpan.TryParse(txtEndTime.Text, out TimeSpan endTime)))
             {
                 MessageBox.Show("Please insert valid hours eg. 09:00");
                 txtStartTime.Text = "";

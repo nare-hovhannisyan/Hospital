@@ -12,8 +12,7 @@ namespace Wpf_UI
             InitializeComponent();
             
         }
-
-       
+        
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             PatientsWindow window = new PatientsWindow();
@@ -27,7 +26,5 @@ namespace Wpf_UI
             window.Show();
             this.Close();
         }
-
-
     }
 }

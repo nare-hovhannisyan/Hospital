@@ -2,6 +2,7 @@
 {
     using System;
     using System.Data.Entity.Migrations;
+    using Wpf_UI.Services;
     
     public partial class initial : DbMigration
     {
@@ -46,7 +47,8 @@
                     })
                 .PrimaryKey(t => t.Id);
 
-            Sql("INSERT INTO Users (Login, Password) VALUES ('admin','8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918')");
+            string password = HashFunction.ComputeSha256Hash("admin");
+            Sql($"INSERT INTO Users (Login, Password) VALUES ('admin','{password}')");
         }
         
         public override void Down()

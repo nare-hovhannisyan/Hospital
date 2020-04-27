@@ -19,9 +19,6 @@ using Wpf_UI.Services;
 
 namespace Wpf_UI.Views
 {
-    /// <summary>
-    /// Interaction logic for LoginWindow.xaml
-    /// </summary>
     public partial class LoginWindow : Window
     {
         public LoginWindow()
@@ -45,7 +42,6 @@ namespace Wpf_UI.Views
                     window.Show();
                     this.Close();
                 }
-
             }
         }
     }

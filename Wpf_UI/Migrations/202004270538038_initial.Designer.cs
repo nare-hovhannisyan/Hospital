@@ -13,7 +13,7 @@ namespace Wpf_UI.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202004262041581_initial"; }
+            get { return "202004270538038_initial"; }
         }
         
         string IMigrationMetadata.Source
